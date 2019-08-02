@@ -1,0 +1,21 @@
+ let time = _moment().subtract({ minutes: 15 }).format("YYYY-MM-DD HH:mm:ss");
+            let c = time < _moment(_args.otp_gen_time).format("YYYY-MM-DD HH:mm:ss");
+            
+            if (c) {
+                QB.update("user", { is_mobile_verified: 1 }, { id: _args.id }, (err, resp) => {
+                    if (err) {
+                        callback(err.message)
+                        res.status(CONSTANT.CODES.Error).json({ status: CONSTANT.CODES.statusFail, message: err });
+                    } else {
+                        console.log(_args.is_mobile_verified)
+                        _args = Transformer.userTransform(_args, req.headers.timezone)
+                        let data = {}
+                        
+                        data._args = _args
+                        data.msg = msg_file.no_verified
+                        callback(null, data)
+                    }
+                })
+            } else {
+                callback(msg_file.otp_verified)
+            }
