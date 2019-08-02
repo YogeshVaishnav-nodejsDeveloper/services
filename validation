@@ -1,0 +1,13 @@
+  <any-body-req>: Joi.string().required().error(errors => {
+                        let type = errors[0].type;
+                        let $message;
+                        switch (type) {
+                            case "any.required": { $message = "Phone number is required."; } break;
+                            case "any.empty": { $message = "Phone number is required."; } break;
+                            case "string.base": { $message = "Phone number should be in string format."; } break;
+                            default: { $message = "Phone number has improper value."; } break;
+                        }
+                        return {
+                            message: $message
+                        };
+                    }),
