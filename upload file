@@ -1,0 +1,60 @@
+
+// creating functions in any helper file
+
+uploadPath: function () {
+    return Date.now() + Math.random(1, 10000);
+  },
+
+  isEmpty: function (obj) {
+    for (var key in obj) {
+      if (obj.hasOwnProperty(key)) return false;
+    }
+    return true;
+  },
+  uploadFile: function (from, to) {
+    fs.copyFile(from, to, function (err) {
+      if (err) {
+        console.log("error while uploadinf file:", err);
+      } else {
+        console.log("File uploaded successfully!!!");
+      }
+    });
+  },
+
+  cropResizeImage: function (filePath, dstUrl, width = 50, height = 50) {
+    im.resize({
+      srcPath: filePath,
+      dstPath: dstUrl,
+      width: width,
+      height: height,
+      strip: true,
+      progressive: false,
+      quality: 0.8
+    });
+  },
+
+  checkNull: function (value_to_be_checked, value) {
+    return value_to_be_checked ? value : null
+  },
+  
+  
+  
+  // here we use fuction declared above
+  
+   callback => {
+            if (!_helper.isEmpty(req.files.profile_pic)) {
+                let from;
+                let to;
+                let name = req.files.profile_pic.name.split(".");
+                req.body.profile_pic = _helper.uploadPath() + "." + name.pop();
+                to = req.app.locals.base_path + CONSTANT.FILE.PROFILE_PIC + req.body.profile_pic;
+                from = req.files.profile_pic.path;
+                _helper.uploadFile(from, to);
+                callback();
+            } else {
+                callback();
+            }
+        },
+  
+  
+  
