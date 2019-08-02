@@ -1,0 +1,32 @@
+here we apply for each on an array result
+let array is result=[{
+id:""
+hah:""
+data:""
+method:{  id:"", method:"" }
+      
+}]
+
+
+
+
+.then((result) => {
+            try {
+                   
+                let response = []
+                    result.forEach(element => {
+                        let method = []
+                        element.method = element.method.split(',')
+                        element.method.forEach(elem => {
+                            elem = elem.split("-")
+                            method.push({'id':elem[0],'method':elem[1]})
+
+                        })
+                        element.method = method
+                        response.push(element)
+                    });
+                    return response;
+            } catch (error) {
+                    throw error.message;
+            }
+        })
